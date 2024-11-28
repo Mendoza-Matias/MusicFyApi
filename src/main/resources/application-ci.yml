@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password: password
+    url: jdbc:h2:mem:${DB_TEST}
+    username: ${DB_TEST_USER}
+    password: ${DB_TEST_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 server:
