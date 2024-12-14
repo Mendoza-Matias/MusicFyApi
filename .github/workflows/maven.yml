@@ -19,9 +19,21 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           cache: maven
-      # run test
+
+      # Run Maven tests
       - name: Run Maven tests
         run: mvn -B clean test --file pom.xml
 
+      # Build with Maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
+      # Delete branch (if tests and build pass)
+      - name: Delete branch
+        if: ${{ startsWith(github.ref, 'refs/heads/dev/') }}
+        run: |
+          branch_name=${GITHUB_REF##*/}
+          echo "Deleting branch $branch_name"
+          git push origin --delete $branch_name
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
