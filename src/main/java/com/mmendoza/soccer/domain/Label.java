@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "labels")
@@ -22,4 +20,7 @@ public class Label {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(mappedBy = "labels")
+    private List<News> news;
 }

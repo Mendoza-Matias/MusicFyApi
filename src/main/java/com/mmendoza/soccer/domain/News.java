@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "news")
@@ -17,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class New {
+public class News {
 
     @Id
     private Integer newsId;
@@ -32,4 +31,17 @@ public class New {
     @CreatedDate
     private LocalDate datePublication;
 
+    @JoinTable(
+            name = "news_labels",
+            joinColumns = @JoinColumn(name = "news_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "label_id", nullable = false)
+    )
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Label> labels;
+
+    public void addLabel(Label label) {
+        if (this.labels == null)
+            this.labels = new ArrayList<>();
+        this.labels.add(label);
+    }
 }
